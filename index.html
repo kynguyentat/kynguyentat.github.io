@@ -2,80 +2,187 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu & Banner Like Kucra</title>
+    <style>
+        /* Reset cơ bản */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Menu */
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e90ff;
+        }
+
+        .menu nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .menu nav ul li {
+            position: relative;
+        }
+
+        .menu nav ul li a {
+            color: #333;
+            text-decoration: none;
+            padding: 5px 10px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .menu nav ul li a:hover {
+            color: #1e90ff;
+        }
+
+        /* Dropdown menu */
+        .menu nav ul li.dropdown .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            list-style: none;
+            padding: 10px 0;
+            min-width: 150px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .menu nav ul li.dropdown .dropdown-menu li {
+            padding: 5px 15px;
+        }
+
+        .menu nav ul li.dropdown .dropdown-menu li a {
+            color: #333;
+            font-weight: 400;
+        }
+
+        .menu nav ul li.dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Nút CTA */
+        .menu .cta .btn {
+            background: #1e90ff;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .menu .cta .btn:hover {
+            background: #0066cc;
+        }
+
+        /* Banner */
+        .banner {
+            height: 80vh;
+            background: url('https://via.placeholder.com/1920x1080') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            padding: 0 20px;
+        }
+
+        .banner-content h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .banner-content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        .banner-content .btn-primary {
+            background: #1e90ff;
+            color: #fff;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .banner-content .btn-primary:hover {
+            background: #0066cc;
+        }
+    </style>
 </head>
 <body>
-<!--Cac thanh phan dung trong the form
-The Form: Nhap thong tin, gui thong tin ve cho may chu-->
-<form style="border: 1px solid black;border-radius: 10px;padding: 10px;">
-    <h1>Vui long nhap email, password</h1>
-    <div>
-<!-- Input: nhap ky tu tu ban phim-->
-<!-- Label: the hien ten cho input: di kem voi input-->
-        <label>Email</label>
-        <label>
-    <input  type="email" name="email" placeholder="Vui long nhap Email">
-            </label>
-    <label>
-        <label>Password</label>
-        <input type="password" placeholder="Vui long nhap Password">
-    </label>
-        <label for="checkbox">Check Box</label>
-        <input id="checkbox" type="checkbox" placeholder="Vui long nhap Email">
-        <label for="checkbox">Check Box</label>
-
-        <label for="url">URL</label>
-        <input ID="URL" type="url" placeholder="Vui long nhap url">
-
-        <label for="number">Number</label>
-        <input ID="number" type="number" placeholder="Vui long nhap 1 so">
-
-        <label for="range">Range</label>
-        <input ID="range" type="range" min="1" max="100" placeholder="Vui long nhap range">
-
-        <label for="date">Date</label>
-        <input ID="date" type="date" placeholder="Vui long nhap date">
-
-        <label for="month">Date</label>
-        <input ID="month" type="month" placeholder="Vui long nhap month">
-
-        <label for="date-local">Date</label>
-        <input ID="date-local" type="datetime-local" step="1" placeholder="Vui long nhap date">
-
-        <label for="time">Time</label>
-        <input ID="time" type="time" placeholder="Vui long nhap time">
-
-        <label for="week">Week</label>
-        <input ID="week" type="week" placeholder="Vui long nhap week">
-
-        <label for="color">Mau</label>
-        <input ID="color" type="color" placeholder="Vui long nhap color">
-
-        <label for="radio">Radio: chon 1 trong n tuy chon</label>
-        <input ID="radio1" type="radio" value="op1" > Chon 1
-        <input ID="radio2" type="radio" value="op2" > Chon 2
-        <input ID="radio3" type="radio" value="op3" > Chon 3
-        <input ID="radio4" type="radio" value="op4" > Chon 4
-
-        <fieldset>
-            <legend>Gender</legend>
-            <input ID="gender" type="radio" name="gender" value="male" > Male
-            <input ID="gender" type="radio" name="gender" value="female" > Female
-            <input ID="gender" type="radio" name="gender" value="other" > Other
-        </fieldset>
-
-        <label for="search">Search</label>
-        <input ID="search" type="search" placeholder="Vui long nhap Search">
-<!--        Gui thong tin cua cac thuoc tinh trong input-->
-
-        <button type="submit">Save</button>
-        </form>
-
-
-
-<!-- type: chi dinh kieu gia tri nhap vao-->
-
+<!-- Menu -->
+<header class="menu">
+    <div class="container">
+        <div class="logo">Kucra</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li class="dropdown">
+                    <a href="#">Blog</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Tech</a></li>
+                        <li><a href="#">Design</a></li>
+                        <li><a href="#">Marketing</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Portfolio</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="cta">
+            <a href="#" class="btn">Get Started</a>
+        </div>
     </div>
-</form>
+</header>
+
+<!-- Banner -->
+<section class="banner">
+    <div class="banner-content">
+        <h1>Welcome to Kucra</h1>
+        <p>Your journey to success starts here. We provide top-notch services to help your business thrive in the digital age.</p>
+        <a href="#" class="btn btn-primary">Learn More</a>
+    </div>
+</section>
 </body>
 </html>
+
