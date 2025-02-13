@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Web Tổng Hợp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Phần 1: Nút bấm hiển thị hộp thoại -->
+    <div class="section">
+        <h2>1. Chào mừng</h2>
+        <button onclick="chaoMung()">Nhấn vào đây</button>
+    </div>
+
+    <!-- Phần 2: Nút đổi màu nền -->
+    <div class="section">
+        <h2>2. Đổi màu nền</h2>
+        <button onclick="doiMauNen()">Đổi màu nền</button>
+    </div>
+
+    <!-- Phần 3: Nút ẩn/hiện đoạn văn bản -->
+    <div class="section">
+        <h2>3. Ẩn/Hiện văn bản</h2>
+        <p id="doanVan">Đây là đoạn văn bản có thể ẩn hoặc hiện.</p>
+        <button onclick="anHien()">Ẩn/Hiện</button>
+    </div>
+
+    <!-- Phần 4: Form tính tổng hai số -->
+    <div class="section">
+        <h2>4. Tính tổng hai số</h2>
+        <input type="number" id="so1" placeholder="Nhập số thứ nhất">
+        <input type="number" id="so2" placeholder="Nhập số thứ hai">
+        <button onclick="tinhTong()">Tính tổng</button>
+        <p id="ketQua"></p>
+    </div>
+
+    <!-- Phần 5: Đếm số ký tự trong ô nhập văn bản -->
+    <div class="section">
+        <h2>5. Đếm số ký tự</h2>
+        <textarea id="vanBan" oninput="demKyTu()" placeholder="Nhập văn bản"></textarea>
+        <p>Số ký tự: <span id="soKyTu">0</span></p>
+    </div>
+
+    <script>
+        // Phần 1: Hiển thị hộp thoại chào mừng
+        function chaoMung() {
+            alert("Xin chào! Chào mừng bạn đến với trang web của tôi!");
+        }
+
+        // Phần 2: Đổi màu nền ngẫu nhiên
+        function doiMauNen() {
+            const mauNgauNhien = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            document.body.style.backgroundColor = mauNgauNhien;
+        }
+
+        // Phần 3: Ẩn/Hiện đoạn văn bản
+        function anHien() {
+            const doanVan = document.getElementById('doanVan');
+            if (doanVan.style.display === "none") {
+                doanVan.style.display = "block";
+            } else {
+                doanVan.style.display = "none";
+            }
+        }
+
+        // Phần 4: Tính tổng hai số
+        function tinhTong() {
+            const so1 = Number(document.getElementById('so1').value);
+            const so2 = Number(document.getElementById('so2').value);
+            const tong = so1 + so2;
+            document.getElementById('ketQua').innerText = "Tổng: " + tong;
+        }
+
+        // Phần 5: Đếm số ký tự trong ô nhập văn bản
+        function demKyTu() {
+            const vanBan = document.getElementById('vanBan').value;
+            document.getElementById('soKyTu').innerText = vanBan.length;
+        }
+    </script>
+</body>
+</html>
