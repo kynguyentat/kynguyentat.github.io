@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cửa hàng thể thao ABC</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Nam</a></li>
+                <li><a href="#">Nữ</a></li>
+                <li><a href="#">Trẻ em</a></li>
+                <li><a href="#">Thương hiệu</a></li>
+            </ul>
+            <div class="search-box">
+                <input type="text" placeholder="Tìm kiếm sản phẩm...">
+            </div>
+            <div class="account-icon">
+                <a href="#">Đăng nhập / Đăng ký</a>
+            </div>
+            <div class="cart-icon">
+                <a href="cart.html">Giỏ hàng</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="products">
+            <div class="product">
+                <img src="product1.jpg" alt="Product 1">
+                <div class="quick-view">Xem nhanh</div>
+                <h3>Giày thể thao nam</h3>
+                <p>500,000 VND</p>
+                <button class="add-to-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Thêm các sản phẩm khác ở đây -->
+        </section>
+    </main>
+
+    <div id="quick-view-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="product1.jpg" alt="Product 1">
+            <h3>Giày thể thao nam</h3>
+            <p>500,000 VND</p>
+            <button class="add-to-cart">Thêm vào giỏ</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
