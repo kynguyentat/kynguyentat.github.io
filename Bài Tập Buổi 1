@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website - Material Design 3</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Trang Login -->
+  <div id="login-page" class="page">
+    <div class="login-container">
+      <h2>Login</h2>
+      <form id="login-form">
+        <div class="input-field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        <div class="input-field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <div class="checkbox-field">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Remember Password</label>
+        </div>
+        <div class="checkbox-field">
+          <input type="checkbox" id="policy" name="policy" required>
+          <label for="policy">Agree with our Policy</label>
+        </div>
+        <button type="submit" class="login-button">Login</button>
+        <button type="button" class="register-button" onclick="showRegisterPage()">Register</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Trang Register -->
+  <div id="register-page" class="page" style="display: none;">
+    <div class="register-container">
+      <h2>Register</h2>
+      <form id="register-form">
+        <div class="input-field">
+          <label for="reg-username">Username</label>
+          <input type="text" id="reg-username" name="reg-username" required>
+        </div>
+        <div class="input-field">
+          <label for="reg-password">Password</label>
+          <input type="password" id="reg-password" name="reg-password" required>
+        </div>
+        <div class="input-field">
+          <label for="reg-repassword">Re-Password</label>
+          <input type="password" id="reg-repassword" name="reg-repassword" required>
+        </div>
+        <button type="submit" class="register-button">Register</button>
+        <button type="button" class="login-button" onclick="showLoginPage()">Back to Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Trang Home -->
+  <div id="home-page" class="page" style="display: none;">
+    <header class="app-bar">
+      <nav class="menu">
+        <ul>
+          <li><a href="#">Chuyên mục 1</a></li>
+          <li><a href="#">Chuyên mục 2</a></li>
+          <li><a href="#">Chuyên mục 3</a></li>
+        </ul>
+      </nav>
+      <div class="profile-section">
+        <span class="username" id="display-username">Username</span>
+        <button class="sign-out-button" onclick="showLoginPage()">Sign Out</button>
+      </div>
+    </header>
+    <main class="news-feed">
+      <div class="news-card">
+        <h3>Tin tức 1</h3>
+        <p>Nội dung tin tức 1...</p>
+      </div>
+      <div class="news-card">
+        <h3>Tin tức 2</h3>
+        <p>Nội dung tin tức 2...</p>
+      </div>
+      <!-- Thêm các tin tức khác tại đây -->
+    </main>
+  </div>
+
+  <script>
+    // Hiển thị trang Register
+    function showRegisterPage() {
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('register-page').style.display = 'block';
+      document.getElementById('home-page').style.display = 'none';
+    }
+
+    // Hiển thị trang Login
+    function showLoginPage() {
+      document.getElementById('login-page').style.display = 'block';
+      document.getElementById('register-page').style.display = 'none';
+      document.getElementById('home-page').style.display = 'none';
+    }
+
+    // Hiển thị trang Home sau khi đăng nhập/đăng ký
+    function showHomePage(username) {
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('register-page').style.display = 'none';
+      document.getElementById('home-page').style.display = 'block';
+      document.getElementById('display-username').textContent = username;
+    }
+
+    // Xử lý form Login
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      showHomePage(username);
+    });
+
+    // Xử lý form Register
+    document.getElementById('register-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const username = document.getElementById('reg-username').value;
+      showHomePage(username);
+    });
+  </script>
+</body>
+</html>
