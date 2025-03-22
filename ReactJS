@@ -1,0 +1,70 @@
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+
+// Home Component
+const Home = ({ notes, onAddNote }) => {
+    const [newNote, setNewNote] = useState('');
+
+    const handleAddNote = () => {
+        if (newNote) {
+            onAddNote(newNote);
+            setNewNote('');
+        }
+    };
+
+    return (
+        <div>
+            <h1>Danh sách ghi chú</h1>
+            <input
+                type="text"
+                value={newNote}
+                onChange={(e) => setNewNote(e.target.value)}
+                placeholder="Nhập ghi chú"
+            />
+            <button onClick={handleAddNote}>Thêm ghi chú</button>
+            <ul>
+                {notes.map((note, index) => (
+                    <li key={index}>
+                        <Link to={`/note/${index}`}>{note}</Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
+
+// NoteDetail Component
+const NoteDetail = ({ notes, match }) => {
+    const noteIndex = match.params.index;
+    const note = notes[noteIndex];
+
+    return (
+        <div>
+            <h1>Chi tiết ghi chú</h1>
+            <p>{note}</p>
+            <Link to="/">Quay lại</Link>
+        </div>
+    );
+};
+
+// App Component
+const App = () => {
+    const [notes, setNotes] = useState([]);
+
+    const addNote = (note) => {
+        setNotes([...notes, note]);
+    };
+
+    return (
+        <Router>
+            <Switch>
+                <Route path="/" exact>
+                    <Home notes={notes} onAddNote={addNote} />
+                </Route>
+                <Route path="/note/:index" render={(props) => <NoteDetail {...props} notes={notes} />} />
+            </Switch>
+        </Router>
+    );
+};
+
+export default App;
