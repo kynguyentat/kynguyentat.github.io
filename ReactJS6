@@ -1,0 +1,208 @@
+import React, { useState } from 'react';
+import styled from 'styled-components';
+
+// Styled components cho ProfileCard (Bài 1)
+const ProfileCardWrapper = styled.div`
+  border: ${(props) => props.border || '1px solid #ccc'};
+  background-color: ${(props) => props.bgColor || '#fff3e0'};
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const InfoText = styled.p`
+  color: ${(props) => props.textColor || '#5d4037'};
+  font-size: ${(props) => props.fontSize || '16px'};
+  margin: 8px 0;
+`;
+
+// Styled components cho các button trong Bài 2
+const BaseButton = styled.button`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 5px;
+  &:hover {
+    opacity: 0.9;
+  }
+`;
+
+const PrimaryButton = styled(BaseButton)`
+  background-color: #0288d1;
+  color: white;
+`;
+
+const DangerButton = styled(BaseButton)`
+  background-color: #d32f2f;
+  color: white;
+`;
+
+const InfoButton = styled(BaseButton)`
+  background-color: #388e3c;
+  color: white;
+`;
+
+// Styled components cho Note App
+const NoteWrapper = styled.div`
+  border-width: 1px;
+  border-color: #ddd;
+  margin: 8px 0;
+  padding: 12px;
+  background: #ffffff;
+  color: #333;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const InputArea = styled.div`
+  background: #e0f7fa;
+  padding: 16px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const Input = styled.input`
+  border-width: 1px;
+  border-color: #999;
+  padding: 12px;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+function App() {
+  // State cho ProfileCard (Bài 1)
+  const [border, setBorder] = useState('1px solid #ccc');
+  const [bgColor, setBgColor] = useState('#fff3e0');
+  const [textStyle, setTextStyle] = useState({ textColor: '#5d4037', fontSize: '16px' });
+
+  // State cho Note App
+  const [notes, setNotes] = useState([
+    { id: 0, note: 'Ăn Sáng 20K' },
+    { id: 1, title: 'Ghi chú ăn trưa', note: 'Ăn Trưa 20K' },
+  ]);
+  const [text, setText] = useState('');
+  const [noteID, setNoteID] = useState('');
+
+  // Hàm cho Note App
+  const handleDelete = (id) => {
+    setNotes(notes.filter((note) => note.id !== id));
+  };
+
+  const handleSave = () => {
+    if (noteID === '') return;
+    const id = parseInt(noteID);
+    const existingNote = notes.find((note) => note.id === id);
+    if (existingNote) {
+      setNotes(notes.map((note) => (note.id === id ? { ...note, note: text } : note)));
+    } else {
+      setNotes([...notes, { id: id, note: text }]);
+    }
+    setText('');
+    setNoteID('');
+  };
+
+  // Hàm cho ProfileCard
+  const changeBorder = () => setBorder('2px dashed #ff5722');
+  const changeBgColor = () => setBgColor('#e0f7fa');
+  const changeTextStyle = () => setTextStyle({ textColor: '#d81b60', fontSize: '18px' });
+
+  return (
+    <div
+      style={{
+        background: '#f0f4f8',
+        minHeight: '100vh',
+        padding: 20,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      {/* Tiêu đề chung */}
+      <h1
+        style={{
+          background: '#ffca28',
+          color: '#333',
+          padding: 16,
+          borderRadius: 8,
+          width: '100%',
+          maxWidth: 400,
+          textAlign: 'center',
+        }}
+      >
+        App Note & Profile 2025
+      </h1>
+
+      {/* Phần ProfileCard (Bài 1) */}
+      <ProfileCardWrapper border={border} bgColor={bgColor}>
+        <InfoText textColor={textStyle.textColor} fontSize={textStyle.fontSize}>
+          Tên: Nguyễn Văn A
+        </InfoText>
+        <InfoText textColor={textStyle.textColor} fontSize={textStyle.fontSize}>
+          Tuổi: 25
+        </InfoText>
+        <InfoText textColor={textStyle.textColor} fontSize={textStyle.fontSize}>
+          Email: nva@example.com
+        </InfoText>
+      </ProfileCardWrapper>
+      <div style={{ textAlign: 'center', marginBottom: 20 }}>
+        <PrimaryButton onClick={changeBorder}>Thay đổi viền</PrimaryButton>
+        <DangerButton onClick={changeBgColor}>Thay đổi màu nền</DangerButton>
+        <InfoButton onClick={changeTextStyle}>Thay đổi chữ</InfoButton>
+      </div>
+
+      {/* Phần Note App */}
+      {notes.map((note) => (
+        <NoteWrapper key={note.id}>
+          <span>
+            {note.title ? `${note.title}: ${note.note}` : `${note.id}: ${note.note}`}
+          </span>
+          <div>
+            <PrimaryButton
+              onClick={() => {
+                setText(note.note);
+                setNoteID(note.id.toString());
+              }}
+            >
+              Edit
+            </PrimaryButton>
+            <DangerButton onClick={() => handleDelete(note.id)}>X</DangerButton>
+          </div>
+        </NoteWrapper>
+      ))}
+      <InputArea>
+        <Input
+          type="number"
+          value={noteID}
+          onChange={(event) => setNoteID(event.target.value)}
+          placeholder="Nhập ID"
+        />
+        <Input
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+          placeholder="Nhập ghi chú"
+        />
+        <InfoButton onClick={handleSave}>
+          {noteID !== '' && notes.find((note) => note.id === parseInt(noteID)) ? 'Update' : 'Save'}
+        </InfoButton>
+      </InputArea>
+    </div>
+  );
+}
+
+export default App;
