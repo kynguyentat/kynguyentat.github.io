@@ -1,0 +1,78 @@
+-- File: LibraryExam.sql
+-- Adapted for SQLite (due to syntax errors indicating non-SQL Server environment)
+-- Database: LibraryExam (single file in SQLite)
+
+-- Enable foreign key support in SQLite
+PRAGMA foreign_keys = ON;
+
+-- PART II: DATABASE DESIGN (30 points)
+
+-- Create Authors table with CHECK constraint
+CREATE TABLE Authors (
+    AuthorID INTEGER PRIMARY KEY AUTOINCREMENT,
+    AuthorName TEXT NOT NULL,
+    Nationality TEXT NOT NULL,
+    BirthYear INTEGER NOT NULL CHECK (BirthYear BETWEEN 1900 AND 2025)
+);
+
+-- Create Books table with CHECK and FOREIGN KEY constraints
+CREATE TABLE Books (
+    BookID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Title TEXT NOT NULL,
+    AuthorID INTEGER NOT NULL,
+    PublicationYear INTEGER NOT NULL CHECK (PublicationYear BETWEEN 1900 AND 2025),
+    Price REAL NOT NULL CHECK (Price > 0),
+    FOREIGN KEY (AuthorID) REFERENCES Authors(AuthorID)
+);
+
+-- PART III: INSERT SAMPLE DATA (10 points)
+
+-- Insert Authors (4 authors from at least 2 countries: USA, Vietnam, UK)
+INSERT INTO Authors (AuthorName, Nationality, BirthYear) VALUES
+('John Smith', 'USA', 1970),
+('Nguyen Van An', 'Vietnam', 1965),
+('Emma Brown', 'UK', 1980),
+('Tran Thi Bich', 'Vietnam', 1975);
+
+-- Insert Books (6 books, at least 3 with 'SQL' in title)
+INSERT INTO Books (Title, AuthorID, PublicationYear, Price) VALUES
+('Mastering SQL for Beginners', 1, 2020, 29.99),
+('Advanced SQL Techniques', 1, 2022, 39.99),
+('SQL Server Administration', 2, 2019, 45.50),
+('Database Design with SQL', 3, 2021, 35.00),
+('Modern Database Systems', 3, 2023, 50.00),
+('Data Analysis Fundamentals', 4, 2018, 25.00);
+
+-- PART IV: QUERIES (40 points)
+
+-- 1. List all books with author names, sorted by price descending
+SELECT b.Title, a.AuthorName, b.Price
+FROM Books b
+JOIN Authors a ON b.AuthorID = a.AuthorID
+ORDER BY b.Price DESC;
+
+-- 2. List distinct countries of authors
+SELECT DISTINCT Nationality
+FROM Authors;
+
+-- 3. Find books with 'SQL' in title (case-insensitive)
+SELECT Title
+FROM Books
+WHERE UPPER(Title) LIKE '%SQL%';
+
+-- 4. Count books per author, sorted by count descending
+SELECT a.AuthorName, COUNT(b.BookID) AS BookCount
+FROM Authors a
+LEFT JOIN Books b ON a.AuthorID = b.AuthorID
+GROUP BY a.AuthorName
+ORDER BY BookCount DESC;
+
+-- PART V: CONSTRAINT TESTING (20 points)
+
+-- 1. Try inserting a book with Price = -5 (should fail due to CHECK constraint)
+INSERT INTO Books (Title, AuthorID, PublicationYear, Price)
+VALUES ('Invalid Book', 1, 2020, -5);
+
+-- 2. Try inserting a book with PublicationYear > 2025 (should fail due to CHECK constraint)
+INSERT INTO Books (Title, AuthorID, PublicationYear, Price)
+VALUES ('Future Book', 1, 2026, 20.00);
