@@ -1,0 +1,114 @@
+-- Bài 1
+-- Tạo cơ sở dữ liệu
+CREATE DATABASE BookStore;
+GO
+USE BookStore;
+GO
+
+-- Tạo bảng Categories
+CREATE TABLE Categories (
+    CategoryId INT PRIMARY KEY,
+    CategoryName NVARCHAR(100) NOT NULL
+);
+
+-- Tạo bảng Books
+CREATE TABLE Books (
+    BookId INT PRIMARY KEY,
+    Title NVARCHAR(200) NOT NULL,
+    Release INT,
+    Price FLOAT NOT NULL,
+    CategoryId INT,
+    FOREIGN KEY (CategoryId) REFERENCES Categories(CategoryId)
+);
+
+-- Tạo bảng Account
+CREATE TABLE Account (
+    AccountId INT PRIMARY KEY,
+    Email NVARCHAR(100),
+    Phone NVARCHAR(20),
+    Active BIT DEFAULT 1
+);
+
+-- Tạo bảng OrderBook
+CREATE TABLE OrderBook (
+    OrderId INT PRIMARY KEY,
+    OrderDate DATE NOT NULL,
+    ReceiveAddress NVARCHAR(200) NOT NULL,
+    AccountId INT,
+    FOREIGN KEY (AccountId) REFERENCES Account(AccountId)
+);
+
+-- Tạo bảng OrderDetail
+CREATE TABLE OrderDetail (
+    OrderId INT,
+    BookId INT,
+    Price FLOAT NOT NULL,
+    Quantity INT NOT NULL,
+    PRIMARY KEY (OrderId, BookId),
+    FOREIGN KEY (OrderId) REFERENCES OrderBook(OrderId),
+    FOREIGN KEY (BookId) REFERENCES Books(BookId)
+);
+
+-- Bài 2
+CREATE VIEW vw_OrderDetails AS
+SELECT 
+    o.OrderId,
+    o.OrderDate,
+    o.ReceiveAddress,
+    b.Title,
+    od.Price,
+    od.Quantity,
+    (od.Price * od.Quantity) AS TotalPayment
+FROM OrderBook o
+JOIN OrderDetail od ON o.OrderId = od.OrderId
+JOIN Books b ON od.BookId = b.BookId;
+CREATE PROCEDURE sp_GetOrderTotal
+    @OrderId INT,
+    @Total FLOAT OUTPUT
+AS
+BEGIN
+    SELECT @Total = SUM(Price * Quantity)
+    FROM OrderDetail
+    WHERE OrderId = @OrderId;
+END;
+CREATE FUNCTION fn_CountBooksInPriceRange
+(
+    @MinPrice FLOAT,
+    @MaxPrice FLOAT
+)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @Count INT;
+    SELECT @Count = COUNT(*)
+    FROM Books
+    WHERE Price BETWEEN @MinPrice AND @MaxPrice;
+    RETURN @Count;
+END;
+CREATE TRIGGER tr_CheckBookRelease
+ON Books
+AFTER UPDATE
+AS
+BEGIN
+    IF EXISTS (
+        SELECT * 
+        FROM inserted 
+        WHERE Release > YEAR(GETDATE())
+    )
+    BEGIN
+        RAISERROR ('Năm xuất bản không được muộn hơn năm hiện tại.', 16, 1);
+        ROLLBACK TRANSACTION;
+    END
+END;
+-- Xóa khóa ngoại hiện tại
+ALTER TABLE Books
+DROP CONSTRAINT FK__Books__CategoryId;
+
+-- Thêm lại khóa ngoại với ON DELETE SET NULL
+ALTER TABLE Books
+ADD CONSTRAINT FK_Books_Categories
+FOREIGN KEY (CategoryId) REFERENCES Categories(CategoryId)
+ON DELETE SET NULL;
+UPDATE Account
+SET Active = 0
+WHERE Email IS NULL AND Phone IS NULL;
